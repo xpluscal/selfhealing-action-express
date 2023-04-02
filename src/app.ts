@@ -1,11 +1,11 @@
-// const app: Application = express()
+const app: Application = express()
 
-// const port: number = 3001
+const port: number = 3001
 
-// app.get('/toto', (req: Request, res: Response) => {
-//     res.send('Hello toto')
-// })
+app.get('/toto', (req: Request, res: Response) => {
+    res.send('Hello toto')
+})
 
-// app.listen(port, function () {
-//     console.log(`App is listening on port ${port} !`)
-// })
+app.listen(port, function () {
+    console.log(`App is listening on port ${port} !`)
+})
