@@ -65,7 +65,7 @@ def main(build_output_file, openai_api_key):
 
     chat_prompt_template = ChatPromptTemplate.from_messages([human_message_prompt])
     # print(chat_prompt_template)
-    chat = ChatOpenAI(temperature=0)
+    chat = ChatOpenAI(temperature=0, openai_api_key=openai_api_key)
     chain = LLMChain(llm=chat, prompt=chat_prompt_template)
     fixed_code = chain.run({'file':file_text, 'error': build_output});
     print(fixed_code)
