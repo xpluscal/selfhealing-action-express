@@ -19,7 +19,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install your-dependencies
+          pip install langchain
 
       - name: Run build
         id: build
