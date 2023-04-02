@@ -25,7 +25,7 @@ def main(build_output_file, openai_api_key):
 
     human_message_prompt = HumanMessagePromptTemplate(
         prompt=PromptTemplate(
-            template="Can you find the filename where this error comes from: {error}?  If you do, please reply with the filename only, if not please reply with no.",
+            template="Can you find the filename where this error comes from: {error}?  If you do, please reply with the path to the file ONLY, if not please reply with no.",
             input_variables=["error"],
         )
     )
