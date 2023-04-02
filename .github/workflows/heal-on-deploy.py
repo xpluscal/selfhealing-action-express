@@ -1,4 +1,5 @@
 import sys
+import langchain
 
 
 def main(build_output_file):
