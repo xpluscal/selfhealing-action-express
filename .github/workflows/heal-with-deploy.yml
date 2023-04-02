@@ -56,4 +56,4 @@ jobs:
 
       - name: Run your code snippet
         run: |
-          python your_code_snippet.py "${{ env.BUILD_OUTPUT_FILE }}"
+          python heal-with-deploy.py "${{ env.BUILD_OUTPUT_FILE }}"
