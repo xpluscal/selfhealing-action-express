@@ -1,6 +1,6 @@
 name: Deploy and Heal
 on:
-  commit:
+  pull_request:
     branches:
       - main
 
