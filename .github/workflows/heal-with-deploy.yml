@@ -59,7 +59,7 @@ jobs:
         run: |
           python heal-with-deploy.py "build_output.txt"
         env:
-          MY_ENV_VARIABLE: "Your environment variable value"
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
       - name: Commit and push changes
         run: |
