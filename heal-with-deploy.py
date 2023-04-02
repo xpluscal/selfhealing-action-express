@@ -57,7 +57,7 @@ def main(build_output_file, openai_api_key):
 
     human_message_prompt = HumanMessagePromptTemplate(
         prompt=PromptTemplate(
-            template="\nPlease respond with the fixed code ONLY. \n{format_instructions}.\n Content: {file}\n Error: {error}.",
+            template="\nPlease respond with the fixed code ONLY and no additional information. \n{format_instructions}.\n Content: {file}\n Error: {error}.",
             input_variables=["file", "error"],
             partial_variables={"format_instructions": format_instructions}
         )
