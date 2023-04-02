@@ -78,27 +78,16 @@ def main(build_output_file, openai_api_key):
         parsed = new_parser.parse(fixed_code)
         print(parsed)
         return
-    # if fixed_code == "no":
-    #     print("No fix found")
-    #     return
 
     if parsed["fix_found"] == "false":
         print("No fix found")
         return
     
     print("Fix found: " + parsed["fixed_content"])
+    
     # Write file
     with open(filename, "w") as f:
         f.write(parsed["fixed_content"])
-    
-    # Process the fixed_code as needed
-    # detect ``` as end and start and get whats between
-    # print("Fix found: " + fixed_code)
-
-    # Write file
-    # with open(filename, "w") as f:
-    #     f.write(fixed_code)
-
 
 if __name__ == "__main__":
     build_output_file = sys.argv[1]

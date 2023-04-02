@@ -1,7 +1,0 @@
-
-> selfhealing-action-express@0.0.1 build
-> tsc
-
-src/app.ts(1,12): error TS2304: Cannot find name 'Application'.
-src/app.ts(1,26): error TS2304: Cannot find name 'express'.
-src/app.ts(7,9): error TS2339: Property 'send' does not exist on type 'Response'.
