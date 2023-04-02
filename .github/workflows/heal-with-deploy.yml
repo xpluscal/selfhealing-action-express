@@ -69,7 +69,7 @@ jobs:
 
       - name: Run your code snippet
         run: |
-          python heal-with-deploy.py "build_output.txt"
+          python heal-with-deploy.py "build_output.txt" "${{ secrets.OPENAI_API_KEY }}"
 
       - name: Commit and push changes
         run: |
