@@ -1,4 +1,4 @@
-name: Deploy and Heal
+name: Deploy with Healing
 on:
   pull_request:
     branches:
@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      
+
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -19,14 +19,18 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install langchain
+          pip install your-dependencies
 
       - name: Run build
         id: build
         run: |
           # Your build process here
-          set -eo pipefail
-          (npm run build 2>&1 || echo "Build failed") | tee build_output.txt
+          set -o pipefail
+          npm run build 2>&1 | tee build_output.txt || build_status=$?
+          if [ -n "${build_status}" ]; then
+            echo "Build failed"
+            exit 1
+          fi
         env:
           BUILD_OUTPUT_FILE: "build_output.txt"
 
@@ -48,7 +52,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install your-dependencies
+          pip install langchain
 
       - name: Run your code snippet
         run: |
