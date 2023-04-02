@@ -19,12 +19,11 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install langchain
+          pip install your-dependencies
 
       - name: Run build
         id: build
         run: |
-          # Your build process here
           set -o pipefail
           npm run build 2>&1 | tee build_output.txt || build_status=$?
           if [ -n "${build_status}" ]; then
@@ -42,7 +41,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
+          ref: ${{ github.head_ref }}
           fetch-depth: 0
+          token: ${{ secrets.YOUR_GITHUB_TOKEN }}
 
       - name: Set up Python
         uses: actions/setup-python@v2
@@ -56,4 +57,14 @@ jobs:
 
       - name: Run your code snippet
         run: |
-          python heal-with-deploy.py "${{ env.BUILD_OUTPUT_FILE }}"
+          python heal-with-deploy.py "build_output.txt"
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          git add -A
+          git diff-index --quiet HEAD || git commit -m "Commit message"
+          git push
