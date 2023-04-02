@@ -21,6 +21,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install langchain
 
+      - name: Install npm packages
+        run: npm install
+
       - name: Run build
         id: build
         run: |
