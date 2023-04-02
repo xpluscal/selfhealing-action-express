@@ -14,7 +14,7 @@ from langchain.prompts.chat import (
     HumanMessagePromptTemplate,
 )
 
-def main(build_output_file):
+def main(build_output_file, openai_api_key):
     with open(build_output_file, "r") as f:
         build_output = f.read()
 
@@ -31,7 +31,7 @@ def main(build_output_file):
     )
 
     chat_prompt_template = ChatPromptTemplate.from_messages([human_message_prompt])
-    chat = ChatOpenAI(temperature=0, openai_api_key=os.environ["OPENAI_API_KEY"])
+    chat = ChatOpenAI(temperature=0, openai_api_key=openai_api_key)
     chain = LLMChain(llm=chat, prompt=chat_prompt_template)
     filename = chain.run(build_output);
 
@@ -102,4 +102,5 @@ def main(build_output_file):
 
 if __name__ == "__main__":
     build_output_file = sys.argv[1]
-    main(build_output_file)
+    openai_api_key = sys.argv[2]
+    main(build_output_file, openai_api_key)
