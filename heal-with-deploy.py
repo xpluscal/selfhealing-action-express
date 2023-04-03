@@ -15,21 +15,20 @@ from langchain.prompts.chat import (
 )
 
 def main(build_output_file, openai_api_key):
+
+    # Read build output
     with open(build_output_file, "r") as f:
         build_output = f.read()
-
-    # Process the build_output as needed
     print(build_output)
-
     text = build_output
 
+    # Create prompt template and run chain to return pathname of the error
     human_message_prompt = HumanMessagePromptTemplate(
         prompt=PromptTemplate(
             template="Can you find the filename where this error comes from: {error}?  If you do, please reply with the path to the file ONLY, if not please reply with no.",
             input_variables=["error"],
         )
     )
-
     chat_prompt_template = ChatPromptTemplate.from_messages([human_message_prompt])
     chat = ChatOpenAI(temperature=0, openai_api_key=openai_api_key)
     chain = LLMChain(llm=chat, prompt=chat_prompt_template)
@@ -41,13 +40,11 @@ def main(build_output_file, openai_api_key):
     
     print("Filename found: " + filename)
 
-    # Read file
+    # Read file contents
     with open(filename, "r") as f:
         file_text = f.read()
 
-    # Process the file_text as needed
-    # print(file_text)
-
+    # Create prompt response schema and template and run chain to return fixed code in json format
     response_schemas = [
         ResponseSchema(name="fix_found", description="boolean true false value if the fix was found or not."),
         ResponseSchema(name="fixed_content", description="the updated contents containing the fix.")
@@ -64,12 +61,13 @@ def main(build_output_file, openai_api_key):
     )
 
     chat_prompt_template = ChatPromptTemplate.from_messages([human_message_prompt])
-    # print(chat_prompt_template)
     chat = ChatOpenAI(temperature=0, openai_api_key=openai_api_key)
     chain = LLMChain(llm=chat, prompt=chat_prompt_template)
     fixed_code = chain.run({'file':file_text, 'error': build_output});
+
     print(fixed_code)
 
+    # If parsing fails, try to fix the output and parse again
     try:
         parsed = output_parser.parse(fixed_code)
         print(parsed)
@@ -78,27 +76,16 @@ def main(build_output_file, openai_api_key):
         parsed = new_parser.parse(fixed_code)
         print(parsed)
         return
-    # if fixed_code == "no":
-    #     print("No fix found")
-    #     return
 
     if parsed["fix_found"] == "false":
         print("No fix found")
         return
     
     print("Fix found: " + parsed["fixed_content"])
+
     # Write file
     with open(filename, "w") as f:
         f.write(parsed["fixed_content"])
-    
-    # Process the fixed_code as needed
-    # detect ``` as end and start and get whats between
-    # print("Fix found: " + fixed_code)
-
-    # Write file
-    # with open(filename, "w") as f:
-    #     f.write(fixed_code)
-
 
 if __name__ == "__main__":
     build_output_file = sys.argv[1]
