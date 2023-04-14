@@ -25,7 +25,7 @@ def main(build_output_file, openai_api_key):
     # Create prompt template and run chain to return pathname of the error
     human_message_prompt = HumanMessagePromptTemplate(
         prompt=PromptTemplate(
-            template="Can you find the filename where this error comes from: {error}?  If you do, please reply with the path to the file ONLY, if not please reply with no.",
+            template='Your task is to locate the file name that this error originates from: {error}. To solve this task: First, examine the error message to determine the programming language used. Then, go through the stack trace and locate the file that caused the error. Please provide only the path to the relevant file that generated the error message. If you are unable to locate the file, please respond with "no".',
             input_variables=["error"],
         )
     )
